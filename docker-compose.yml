@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  db:
+    platform: linux/x86_64
+    image: mysql:5.7
+    container_name: "my-sql"
+    ports:
+      - "27017:27107"
+    environment:
+      MYSQL_ROOT_PASSWORD: "X!gJ`$p~TJ<>`2u."
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    links:
+      - db
