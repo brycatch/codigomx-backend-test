@@ -6,9 +6,12 @@ services:
     image: mysql:5.7
     container_name: "my-sql"
     ports:
-      - "27017:27107"
+      - "3306:3306"
+    volumes:
+      - ./docker/mysql-setup.sql:/docker-entrypoint-initdb.d/setup.sql
     environment:
       MYSQL_ROOT_PASSWORD: "X!gJ`$p~TJ<>`2u."
+      MYSQL_ROOT_DATABASE: "backend"
 
   backend:
     build:
@@ -20,3 +23,9 @@ services:
       - db
     links:
       - db
+    command: bash -c 'while !</dev/tcp/db/3306; do sleep 1; done; npm start'
+    environment:
+      DB_USERNAME: "root"
+      DB_PASSWORD: "X!gJ`$p~TJ<>`2u."
+      DB_DATABASE: "backend"
+      DB_HOST: "db"
