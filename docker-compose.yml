@@ -10,8 +10,11 @@ services:
     volumes:
       - ./docker/mysql-setup.sql:/docker-entrypoint-initdb.d/setup.sql
     environment:
-      MYSQL_ROOT_PASSWORD: "X!gJ`$p~TJ<>`2u."
-      MYSQL_ROOT_DATABASE: "backend"
+      - MYSQL_ROOT_DATABASE=backend
+      - MYSQL_ROOT_PASSWORD=X!gJ`$p~TJ<>`2u.
+      - MYSQL_DATABASE=backend
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
 
   backend:
     build:
@@ -25,7 +28,7 @@ services:
       - db
     command: bash -c 'while !</dev/tcp/db/3306; do sleep 1; done; npm start'
     environment:
-      DB_USERNAME: "root"
-      DB_PASSWORD: "X!gJ`$p~TJ<>`2u."
-      DB_DATABASE: "backend"
-      DB_HOST: "db"
+      - DB_USERNAME=user
+      - DB_PASSWORD=password
+      - DB_DATABASE=backend
+      - DB_HOST=db
