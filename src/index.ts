@@ -1,5 +1,5 @@
-const test = () => {
-  console.log("Hello world");
-};
+import Server from "./server";
 
-export { test };
+Server.instance.init(() => {
+  console.log(`Server is running at port: ${Server.instance.port}`);
+});
