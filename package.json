@@ -8,7 +8,7 @@
     "start:dev": "nodemon --config nodemon.json src/index.ts",
     "tsc:watch": "tsc --watch",
     "tsc:build": "tsc",
-    "test": "jest"
+    "test": "jest --detectOpenHandles"
   },
   "keywords": [],
   "author": "",
@@ -26,7 +26,6 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "body-parser": "^1.19.1",
     "express": "^4.17.2",
     "mysql2": "^2.3.3",
     "sequelize": "^6.13.0"

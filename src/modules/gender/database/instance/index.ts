@@ -1,4 +1,5 @@
 import { Sequelize } from "sequelize";
+import { Gender } from "..";
 
 class DB {
   private static _instance: DB;
@@ -29,4 +30,11 @@ const testConnection = async (): Promise<boolean> => {
   }
 };
 
-export { DB, testConnection };
+const sync = async () => {
+  await Gender.sync({ force: true });
+  await Gender.create({ name: "Male" });
+  await Gender.create({ name: "Female" });
+  return DB.instance.sequelize.sync({ alter: true });
+};
+
+export { DB, testConnection, sync };
