@@ -33,8 +33,6 @@ const list = async (): Promise<IApiResponse> => {
 const post = async (user: IUser): Promise<IApiResponse> => {
   try {
     const iUser = await database.create(user);
-    console.log(iUser);
-
     const result: IApiResponse =
       iUser !== null
         ? {

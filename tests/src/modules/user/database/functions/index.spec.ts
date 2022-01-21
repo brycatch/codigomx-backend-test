@@ -28,6 +28,7 @@ describe("User database", () => {
       const insert: IUser = {
         firstName: "firstName",
         lastName: "lastName",
+        password: "12345",
         birthday: new Date("03/03/1995"),
         gender: 1,
       };
@@ -42,6 +43,7 @@ describe("User database", () => {
       const insert: IUser = {
         firstName: "",
         lastName: "",
+        password: "",
         birthday: new Date("03/03/1995"),
         gender: 1,
       };

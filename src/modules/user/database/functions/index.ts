@@ -1,12 +1,16 @@
 import { User as Model } from "../models/";
 import { IUser } from "../interfaces/IUser";
+import { encryptString } from "../../utils";
 
-const USER_COUNT_PROPERTIES = 4;
-const USER_MAX_COUNT_PROPERTIES = 6;
+const USER_COUNT_PROPERTIES = 5;
+const USER_MAX_COUNT_PROPERTIES = 7;
 
 const get = async (userId: string): Promise<IUser | null> => {
   try {
-    const user = await Model.findOne({ where: { userId } });
+    const user = await Model.findOne({
+      where: { userId },
+      attributes: { exclude: ["password"] },
+    });
     if (user === null) throw new Error(`User ${userId} not found`);
     const result: IUser = { ...user.toJSON() };
     return Promise.resolve(result);
@@ -18,6 +22,7 @@ const get = async (userId: string): Promise<IUser | null> => {
 const create = async (user: IUser): Promise<Partial<IUser> | null> => {
   try {
     validateUser(user, true);
+    user.password = await encryptString(user.password);
     let result = (await Model.create(user)).toJSON();
     result = { ...result, password: "" };
     return Promise.resolve(result);
@@ -28,9 +33,12 @@ const create = async (user: IUser): Promise<Partial<IUser> | null> => {
 
 const list = async (): Promise<IUser[]> => {
   try {
-    const users = (await Model.findAll({ where: { isActive: true } })).map(
-      (item) => item.get({ plain: true })
-    );
+    const users = (
+      await Model.findAll({
+        where: { isActive: true },
+        attributes: { exclude: ["password"] },
+      })
+    ).map((item) => item.get({ plain: true }));
     return Promise.resolve(users);
   } catch (error) {
     return Promise.resolve([]);
@@ -82,6 +90,7 @@ const validateUser = (
         break;
       case "firstName":
       case "lastName":
+      case "password":
         validateString(user[key]);
         break;
       case "birthday":

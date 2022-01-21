@@ -18,6 +18,11 @@ const User = DB.instance.sequelize.define("User", {
     allowNull: false,
     field: "last_name",
   },
+  password: {
+    type: DataTypes.STRING(2000),
+    allowNull: false,
+    field: "password",
+  },
   birthday: {
     type: DataTypes.DATE,
     allowNull: false,

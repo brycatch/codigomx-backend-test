@@ -30,6 +30,7 @@ describe("User controller", () => {
       const insert: IUser = {
         firstName: "firstName",
         lastName: "lastName",
+        password: "12345",
         birthday: new Date("03/03/1992"),
         gender: 1,
       };
@@ -44,6 +45,7 @@ describe("User controller", () => {
       const insert: IUser = {
         firstName: "",
         lastName: "",
+        password: "",
         birthday: new Date("03/03/1992"),
         gender: 1,
       };
@@ -56,6 +58,7 @@ describe("User controller", () => {
       const insert: IUser = {
         firstName: "firstName",
         lastName: "lastName",
+        password: "12345",
         birthday: new Date("date"),
         gender: 1,
       };
@@ -97,6 +100,7 @@ describe("User controller", () => {
     it("Should be update a user", async () => {
       const insert: Partial<IUser> = {
         firstName: "firstName",
+        birthday: new Date("03/03/1996"),
       };
       const { data, code, message } = await controller.put(
         `${user.userId}`,
